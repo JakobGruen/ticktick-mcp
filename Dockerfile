@@ -14,12 +14,26 @@ RUN uv pip install -e .
 
 # Create startup scripts for different modes
 RUN echo '#!/bin/sh\n\
+    echo "=== Shell Environment Variables ==="\n\
+    echo "TICKTICK_CLIENT_ID: $TICKTICK_CLIENT_ID"\n\
+    echo "TICKTICK_CLIENT_SECRET: $TICKTICK_CLIENT_SECRET"\n\
+    echo "==================================="\n\
+    echo "=== Python Environment Check ==="\n\
+    uv run python debug_env.py\n\
+    echo "================================"\n\
     uv run -m ticktick_mcp.cli auth\n\
     uv run -m ticktick_mcp.cli run --transport streamable-http --host 0.0.0.0 --port 8000\n\
     ' > /usr/local/bin/run-with-auth && \
     chmod +x /usr/local/bin/run-with-auth
 
 RUN echo '#!/bin/sh\n\
+    echo "=== Shell Environment Variables ==="\n\
+    echo "TICKTICK_CLIENT_ID: $TICKTICK_CLIENT_ID"\n\
+    echo "TICKTICK_CLIENT_SECRET: $TICKTICK_CLIENT_SECRET"\n\
+    echo "==================================="\n\
+    echo "=== Python Environment Check ==="\n\
+    uv run python debug_env.py\n\
+    echo "================================"\n\
     uv run -m ticktick_mcp.cli run --transport streamable-http --host 0.0.0.0 --port 8000\n\
     ' > /usr/local/bin/run-production && \
     chmod +x /usr/local/bin/run-production
